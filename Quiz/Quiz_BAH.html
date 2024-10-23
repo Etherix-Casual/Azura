@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Bahia</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="Quiz_Style.css">
+    <style>
+        /* Estilo da barra progressiva */
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            height: 20px;
+            margin-bottom: 20px; /* Espaçamento abaixo da barra */
+        }
+
+        #progress {
+            height: 100%;
+            background-color: #4CAF50; /* Cor da barra */
+            border-radius: 5px;
+            transition: width 0.3s; /* Transição suave */
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz sobre a Bahia</h1>
+        <div class="progress-bar">
+            <div id="progress" style="width: 0%;"></div>
+        </div>
+        <div id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div id="score">Score: 0</div>
+    </div>
+    <script>
+        // Dicionário de perguntas
+        const PERGUNTAS = {
+            "BAHIA": {
+                "1": {
+                    "1": {
+                        "QUEST": "Qual é a capital da Bahia?",
+                        "RESPOST_LIST": ["Salvador", "Feira de Santana", "Ilhéus", "Vitória da Conquista"],
+                        "RESPOSTA": "Salvador"
+                    },
+                    "2": {
+                        "QUEST": "Qual é o clima predominante na Bahia?",
+                        "RESPOST_LIST": ["Tropical", "Frio", "Desértico", "Polar"],
+                        "RESPOSTA": "Tropical"
+                    },
+                    "3": {
+                        "QUEST": "Qual é a língua oficial do Brasil, falada na Bahia?",
+                        "RESPOST_LIST": ["Português", "Espanhol", "Inglês", "Francês"],
+                        "RESPOSTA": "Português"
+                    },
+                    "4": {
+                        "QUEST": "Qual é o principal bioma encontrado na Bahia?",
+                        "RESPOST_LIST": ["Mata Atlântica", "Cerrado", "Caatinga", "Amazônia"],
+                        "RESPOSTA": "Mata Atlântica"
+                    },
+                    "5": {
+                        "QUEST": "Qual é o nome do famoso rio que corta a Bahia?",
+                        "RESPOST_LIST": ["Rio São Francisco", "Rio Paraguaçu", "Rio Itapicuru", "Rio Jequitinhonha"],
+                        "RESPOSTA": "Rio São Francisco"
+                    }
+                },
+                "2": {
+                    "1": {
+                        "QUEST": "Qual é o prato típico da Bahia feito com feijão-fradinho?",
+                        "RESPOST_LIST": ["Acarajé", "Moqueca", "Vatapá", "Caruru"],
+                        "RESPOSTA": "Acarajé"
+                    },
+                    "2": {
+                        "QUEST": "Qual é a dança tradicional que envolve movimentos de luta e música?",
+                        "RESPOST_LIST": ["Samba", "Frevo", "Capoeira", "Forró"],
+                        "RESPOSTA": "Capoeira"
+                    },
+                    "3": {
+                        "QUEST": "Qual é a festa popular que ocorre em Salvador durante o mês de fevereiro?",
+                        "RESPOST_LIST": ["Festa de Iemanjá", "Carnaval", "Festa Junina", "Festa de São João"],
+                        "RESPOSTA": "Carnaval"
+                    },
+                    "4": {
+                        "QUEST": "Qual é o nome do famoso bairro de Salvador conhecido por sua arquitetura colonial?",
+                        "RESPOST_LIST": ["Pelourinho", "Barra", "Rio Vermelho", "Itapuã"],
+                        "RESPOSTA": "Pelourinho"
+                    },
+                    "5": {
+                        "QUEST": "Qual é o nome do famoso mercado de Salvador conhecido por suas iguarias?",
+                        "RESPOST_LIST": ["Mercado Modelo", "Feira de São Joaquim", "Mercado Municipal", "Feira de Santana"],
+                        "RESPOSTA": "Mercado Modelo"
+                    }
+                },
+                "3": {
+                    "1": {
+                        "QUEST": "Qual é o nome do famoso parque nacional localizado na Bahia?",
+                        "RESPOST_LIST": ["Parque Nacional da Chapada Diamantina", "Parque Nacional do Iguaçu", "Parque Nacional do Tijuca", "Parque Nacional do Itatiaia"],
+                        "RESPOSTA": "Parque Nacional da Chapada Diamantina"
+                    },
+                    "2": {
+                        "QUEST": "Qual é o nome do famoso evento que celebra a cultura afro-brasileira na Bahia?",
+                        "RESPOST_LIST": ["Festa de Iemanjá", "Festa de São João", "Festa de Oxalá", "Festa de Xangô"],
+                        "RESPOSTA": "Festa de Iemanjá"
+                    },
+                    "3": {
+                        "QUEST": "Qual é o nome do famoso escritor baiano que escreveu 'Capitães da Areia'?",
+                        "RESPOST_LIST": ["Jorge Amado", "Machado de Assis", "Graciliano Ramos", "Clarice Lispector"],
+                        "RESPOSTA": "Jorge Amado"
+                    },
+                    "4": {
+                        "QUEST": "Qual é o nome do famoso festival de música que acontece em Salvador?",
+                        "RESPOST_LIST": ["Festival de Inverno", "Festival de Verão", "Festival de Música da Bahia", "Festival de Jazz"],
+                        "RESPOSTA": "Festival de Verão"
+                    },
+                    "5": {
+                        "QUEST": "Qual é o nome do famoso time de futebol da Bahia?",
+         "RESPOST_LIST": ["Esporte Clube Bahia", "Esporte Clube Vitória", "Esporte Clube São Paulo", "Esporte Clube Corinthians"],
+                        "RESPOSTA": "Esporte Clube Bahia"
+                    }
+                },
+                "4": {
+                    "1": {
+                        "QUEST": "Qual é o nome do famoso pintor baiano que criou obras como 'O Lavrador de Café'?",
+                        "RESPOST_LIST": ["Tarsila do Amaral", "Di Cavalcanti", "Portinari", "Genaro de Carvalho"],
+                        "RESPOSTA": "Di Cavalcanti"
+                    },
+                    "2": {
+                        "QUEST": "Qual é o nome do famoso músico baiano que criou a música 'Aquarela do Brasil'?",
+                        "RESPOST_LIST": ["Ary Barroso", "Dorival Caymmi", "Antônio Carlos Jobim", "Vinicius de Moraes"],
+                        "RESPOSTA": "Ary Barroso"
+                    },
+                    "3": {
+                        "QUEST": "Qual é o nome do famoso ator baiano que atuou em filmes como 'O Cangaceiro'?",
+                        "RESPOST_LIST": ["Milton Gonçalves", "Othon Bastos", "Raul Cortez", "Jardel Filho"],
+                        "RESPOSTA": "Milton Gonçalves"
+                    },
+                    "4": {
+                        "QUEST": "Qual é o nome do famoso parque de diversões da Bahia?",
+                        "RESPOST_LIST": ["Parque de Diversões da Bahia", "Parque de Diversões de Salvador", "Parque de Diversões de Feira de Santana", "Parque de Diversões de Ilhéus"],
+                        "RESPOSTA": "Parque de Diversões da Bahia"
+                    },
+                    "5": {
+                        "QUEST": "Qual é o nome do famoso museu de arte da Bahia?",
+                        "RESPOST_LIST": ["Museu de Arte da Bahia", "Museu de Arte de Salvador", "Museu de Arte de Feira de Santana", "Museu de Arte de Ilhéus"],
+                        "RESPOSTA": "Museu de Arte da Bahia"
+                    }
+                },
+                "5": {
+                    "1": {
+                        "QUEST": "Qual é o nome do famoso teatro da Bahia?",
+                        "RESPOST_LIST": ["Teatro da Bahia", "Teatro de Salvador", "Teatro de Feira de Santana", "Teatro de Ilhéus"],
+                        "RESPOSTA": "Teatro da Bahia"
+                    },
+                    "2": {
+                        "QUEST": "Qual é o nome do famoso cinema da Bahia?",
+                        "RESPOST_LIST": ["Cinema da Bahia", "Cinema de Salvador", "Cinema de Feira de Santana", "Cinema de Ilhéus"],
+                        "RESPOSTA": "Cinema da Bahia"
+                    },
+                    "3": {
+                        "QUEST": "Qual é o nome do famoso restaurante da Bahia?",
+                        "RESPOST_LIST": ["Restaurante da Bahia", "Restaurante de Salvador", "Restaurante de Feira de Santana", "Restaurante de Ilhéus"],
+                        "RESPOSTA": "Restaurante da Bahia"
+                    },
+                    "4": {
+                        "QUEST": "Qual é o nome do famoso hotel da Bahia?",
+                        "RESPOST_LIST": ["Hotel da Bahia", "Hotel de Salvador", "Hotel de Feira de Santana", "Hotel de Ilhéus"],
+                        "RESPOSTA": "Hotel da Bahia"
+                    },
+                    "5": {
+                        "QUEST": "Qual é o nome do famoso shopping da Bahia?",
+                        "RESPOST_LIST": ["Shopping da Bahia", "Shopping de Salvador", "Shopping de Feira de Santana", "Shopping de Ilhéus"],
+                        "RESPOSTA": "Shopping da Bahia"
+                    }
+                }
+            }
+        };
+
+        // Variáveis para controle de pontuação
+        let score = 0;
+        let dificuldadeAtual = "1"; // Dificuldade atual
+        let perguntasRestantes = Object.keys(PERGUNTAS.BAHIA[dificuldadeAtual]); // Perguntas restantes na dificuldade atual
+
+        // Função para exibir a pergunta e suas opções
+        function exibirPergunta() {
+            if (perguntasRestantes.length > 0) {
+                const numeroPerguntaAtual = perguntasRestantes[Math.floor(Math.random() * perguntasRestantes.length)];
+                perguntasRestantes.splice(perguntasRestantes.indexOf(numeroPerguntaAtual), 1); // Remove a pergunta respondida
+
+                const pergunta = PERGUNTAS.BAHIA[dificuldadeAtual][numeroPerguntaAtual];
+                
+                document.getElementById("pergunta").innerText = pergunta.QUEST;
+                const opcoesDiv = document.getElementById("opcoes");
+                opcoesDiv.innerHTML = ""; // Limpa opções anteriores
+
+                pergunta.RESPOST_LIST.forEach(resposta => {
+                    const button = document.createElement("button");
+                    button.innerText = resposta;
+                    button.onclick = () => verificarResposta(resposta, pergunta.RESPOSTA);
+                    opcoesDiv.appendChild(button);
+                });
+
+                // Atualiza a barra de progresso
+                const totalPerguntas = Object.keys(PERGUNTAS.BAHIA[dificuldadeAtual]).length;
+                const perguntasRespondidas = totalPerguntas - perguntasRestantes.length;
+                const progresso = (perguntasRespondidas / totalPerguntas) * 100;
+                document.getElementById("progress").style.width = progresso + "%"; // Atualiza a largura da barra
+            } else {
+                if (dificuldadeAtual === "5") {
+                    alert("Você alcançou o final do quiz! Sua pontuação é: " + score);
+                } 
+                
+                else {
+                    dificuldadeAtual = String(Number(dificuldadeAtual) + 1);
+                    perguntasRestantes = Object.keys(PERGUNTAS.BAHIA[dificuldadeAtual]);
+                    exibirPergunta();
+                }
+            }
+        }
+
+        // Função para verificar a resposta
+        function verificarResposta(respostaUsuario, respostaCorreta) {
+            if (respostaUsuario === respostaCorreta) {
+                score += 5; // Aumenta a pontuação em 5
+            } else {
+                score = Math.max(0, score - 15); // Diminui a pont uação em 15, sem permitir que fique abaixo de 0
+            }
+            document.getElementById("score").innerText = "Score: " + score; // Atualiza a pontuação
+            exibirPergunta();
+        }
+
+        // Chama a função para exibir a pergunta ao carregar a página
+        window.onload = exibirPergunta;
+    </script>
+</body>
+</html>

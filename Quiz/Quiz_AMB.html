@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Meio Ambiente</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="Quiz_Style.css">
+    <style>
+        /* Estilo da barra progressiva */
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            height: 20px;
+            margin-bottom: 20px; /* Espaçamento abaixo da barra */
+        }
+
+        #progress {
+            height: 100%;
+            background-color: #4CAF50; /* Cor da barra */
+            border-radius: 5px;
+            transition: width 0.3s; /* Transição suave */
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz sobre Meio Ambiente</h1>
+        <div class="progress-bar">
+            <div id="progress" style="width: 0%;"></div>
+        </div>
+        <div id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div id="score">Score: 0</div>
+    </div>
+    <script>
+        // Dicionário de perguntas
+    const PERGUNTAS = {
+    "MEIO_AMBIENTE": {
+        "1": {
+            "1": {
+                "QUEST": "O que é meio ambiente?",
+                "RESPOST_LIST": ["Conjunto de seres vivos", "Conjunto de elementos naturais e artificiais", "Somente a natureza", "Nenhuma das anteriores"],
+                "RESPOSTA": "Conjunto de elementos naturais e artificiais"
+            },
+            "2": {
+                "QUEST": "Qual é a principal fonte de energia renovável?",
+                "RESPOST_LIST": ["Carvão", "Petróleo", "Solar", "Nuclear"],
+                "RESPOSTA": "Solar"
+            },
+            "3": {
+                "QUEST": "O que é sustentabilidade?",
+                "RESPOST_LIST": ["Uso excessivo de recursos", "Uso consciente dos recursos", "Destruição do meio ambiente", "Nenhuma das anteriores"],
+                "RESPOSTA": "Uso consciente dos recursos"
+            },
+            "4": {
+                "QUEST": "Qual é o gás responsável pelo efeito estufa?",
+                "RESPOST_LIST": ["Oxigênio", "Dióxido de carbono", "Nitrogênio", "Hélio"],
+                "RESPOSTA": "Dióxido de carbono"
+            },
+            "5": {
+                "QUEST": "Qual é a principal causa do desmatamento?",
+                "RESPOST_LIST": ["Construção de casas", "Agricultura", "Indústria", "Turismo"],
+                "RESPOSTA": "Agricultura"
+            }
+        },
+        "2": {
+            "1": {
+                "QUEST": "Qual é a importância das florestas?",
+                "RESPOST_LIST": ["Produzem oxigênio", "Aumentam a temperatura", "Destruem o solo", "Nenhuma das anteriores"],
+                "RESPOSTA": "Produzem oxigênio"
+            },
+            "2": {
+                "QUEST": "O que é reciclagem?",
+                "RESPOST_LIST": ["Descarte de lixo", "Reutilização de materiais", "Queima de resíduos", "Nenhuma das anteriores"],
+                "RESPOSTA": "Reutilização de materiais"
+            },
+            "3": {
+                "QUEST": "Qual é o principal poluente do ar?",
+                "RESPOST_LIST": ["Dióxido de carbono", "Oxigênio", "Água", "Nitrogênio"],
+                "RESPOSTA": "Dióxido de carbono"
+            },
+            "4": {
+                "QUEST": "Qual é a importância da conservação da água?",
+                "RESPOST_LIST": ["Economia de recursos", "Preservação da vida", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Preservação da vida"
+            },
+            "5": {
+                "QUEST": "O que é um parque nacional?",
+                "RESPOST_LIST": ["Área protegida", "Área de lazer", "Área de construção", "Nenhuma das anteriores"],
+                "RESPOSTA": "Área protegida"
+            },
+            "6": {
+                "QUEST": "Qual é a principal causa da perda de biodiversidade?",
+                "RESPOST_LIST": ["Desmatamento", "Poluição", "Clima", "Nenhuma das anteriores"],
+                "RESPOSTA": "Desmatamento"
+            },
+            "7": {
+                "QUEST": "O que é um refúgio de vida?",
+                "RESPOST_LIST": ["Área de proteção", "Área de lazer", "Área de construção", "Nenhuma das anteriores"],
+                "RESPOSTA": "Área de proteção"
+            },
+            "8": {
+                "QUEST": "Qual é a importância da educação ambiental?",
+                "RESPOST_LIST": ["Conhecimento sobre o meio ambiente", "Desenvolvimento econômico", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Conhecimento sobre o meio ambiente"
+            },
+            "9": {
+                "QUEST": "O que é um programa de recuperação de áreas degradadas?",
+                "RESPOST_LIST": ["Programa de construção", "Programa de lazer", "Programa de proteção", "Nenhuma das anteriores"],
+                "RESPOSTA": "Programa de proteção"
+            },
+            "10": {
+                "QUEST": "Qual é a função das zonas de proteção ambiental?",
+                "RESPOST_LIST": ["Proteger a biodiversidade", "Aumentar a urbanização", "Destruir habitats", "Nenhuma das anteriores"],
+                "RESPOSTA": "Proteger a biodiversidade"
+            }
+        },
+        "3": {
+            "1": {
+                "QUEST": "O que é o efeito estufa?",
+                "RESPOST_LIST": ["Aumento da temperatura", "Diminuição da temperatura", "Mudança no clima", "Nenhuma das anteriores"],
+                "RESPOSTA": "Aumento da temperatura"
+            },
+            "2": {
+                "QUEST": "Qual é a importância da redução de resíduos?",
+                "RESPOST_LIST": ["Economia de recursos", "Preservação da vida", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Economia de recursos"
+            },
+            "3": {
+                "QUEST": "O que é o conceito de desenvolvimento sustentável?",
+                "RESPOST_LIST": ["Desenvolvimento econômico", "Desenvolvimento social", "Desenvolvimento ambiental", "Nenhuma das anteriores"],
+                "RESPOSTA": "Desenvolvimento ambiental"
+            },
+            "4": {
+                "QUEST": "Qual é a importância da conservação do solo?",
+                "RESPOST_LIST": ["Economia de recursos", "Preservação da vida", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Preservação da vida"
+            },
+            "5": {
+                "QUEST": "O que é um ecossistema?",
+                "RESPOST_LIST": ["Conjunto de seres vivos", "Conjunto de elementos naturais", "Conjunto de elementos artificiais", "Nenhuma das anteriores"],
+                "RESPOSTA": "Conjunto de seres vivos"
+            }
+        },
+        "4": {
+            "1": {
+                "QUEST": "Qual é a importância da gestão de resíduos?",
+                "RESPOST_LIST": ["Economia de recursos", "Preservação da vida", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Economia de recursos"
+            },
+            "2": {
+                "QUEST": "O que é o conceito de ciclo de vida?",
+                "RESPOST_LIST": ["Ciclo de vida de um produto", "Ciclo de vida de um ser vivo", "Ciclo de vida de um ecossistema", "Nenhuma das anteriores"],
+                "RESPOSTA": "Ciclo de vida de um produto"
+            },
+            "3": {
+                "QUEST": "Qual é a importância da conservação da energia?",
+                "RESPOST_LIST": ["Economia de recursos", "Preservação da vida", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Economia de recursos"
+            },
+            "4": {
+                "QUEST": "O que é o conceito de pegada ecológica?",
+                "RESPOST_LIST": ["Impacto ambiental de uma ação", "Impacto social de uma ação", "Impacto econômico de uma ação", "Nenhuma das anteriores"],
+                "RESPOSTA": "Impacto ambiental de uma ação"
+            },
+            "5": {
+                "QUEST": "Qual é a importância da educação para o desenvolvimento sustentável?",
+                "RESPOST_LIST": ["Conhecimento sobre o meio ambiente", "Desenvolvimento econômico", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Conhecimento sobre o meio ambiente"
+            }
+        },
+        "5": {
+            "1": {
+                "QUEST": "O que é o conceito de sustentabilidade?",
+                "RESPOST_LIST": ["Uso consciente dos recursos", "Uso excessivo de recursos", "Destruição do meio ambiente", "Nenhuma das anteriores"],
+                "RESPOSTA": "Uso consciente dos recursos"
+            },
+            "2": {
+                "QUEST": "Qual é a importância da conservação da biodiversidade?",
+                "RESPOST_LIST": ["Economia de recursos", "Preservação da vida", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Preservação da vida"
+            },
+            "3": {
+                "QUEST": "O que é o conceito de desenvolvimento sustentável?",
+                "RESPOST_LIST": ["Desenvolvimento econômico", "Desenvolvimento social", "Desenvolvimento ambiental", "Nenhuma das anteriores"],
+                "RESPOSTA": "Desenvolvimento ambiental"
+            },
+            "4": {
+                "QUEST": "Qual é a import ância da redução de emissões de gases de efeito estufa?",
+                "RESPOST_LIST": ["Economia de recursos", "Preservação da vida", "Aumento da temperatura", "Nenhuma das anteriores"],
+                "RESPOSTA": "Economia de recursos"
+            },
+            "5": {
+                "QUEST": "O que é o conceito de responsabilidade ambiental?",
+                "RESPOST_LIST": ["Responsabilidade individual", "Responsabilidade coletiva", "Responsabilidade governamental", "Nenhuma das anteriores"],
+                "RESPOSTA": "Responsabilidade individual"
+            }
+        }
+    }
+    }
+
+        // Variáveis para controle de pontuação
+        let score = 0;
+        let dificuldadeAtual = "1"; // Dificuldade atual
+        let perguntasRestantes = Object.keys(PERGUNTAS.MEIO_AMBIENTE[dificuldadeAtual]); // Perguntas restantes na dificuldade atual
+
+        // Função para exibir a pergunta e suas opções
+        function exibirPergunta() {
+            if (perguntasRestantes.length > 0) {
+                const numeroPerguntaAtual = perguntasRestantes[Math.floor(Math.random() * perguntasRestantes.length)];
+                perguntasRestantes.splice(perguntasRestantes.indexOf(numeroPerguntaAtual), 1); // Remove a pergunta respondida
+
+                const pergunta = PERGUNTAS.MEIO_AMBIENTE[dificuldadeAtual][numeroPerguntaAtual];
+                
+                document.getElementById("pergunta").innerText = pergunta.QUEST;
+                const opcoesDiv = document.getElementById("opcoes");
+                opcoesDiv.innerHTML = ""; // Limpa opções anteriores
+
+                pergunta.RESPOST_LIST.forEach(resposta => {
+                    const button = document.createElement("button");
+                    button.innerText = resposta;
+                    button.onclick = () => verificarResposta(resposta, pergunta.RESPOSTA);
+                    opcoesDiv.appendChild(button);
+                });
+
+                // Atualiza a barra de progresso
+                const totalPerguntas = Object.keys(PERGUNTAS.MEIO_AMBIENTE[dificuldadeAtual]).length;
+                const perguntasRespondidas = totalPerguntas - perguntasRestantes.length;
+                const progresso = (perguntasRespondidas / totalPerguntas) * 100;
+                document.getElementById("progress").style.width = progresso + "%"; // Atualiza a largura da barra
+            } else {
+                if (dificuldadeAtual === "5") {
+                    alert("Você alcançou o final do quiz! Sua pontuação é: " + score);
+                } 
+                
+                else {
+                    dificuldadeAtual = String(Number(dificuldadeAtual) + 1);
+                    perguntasRestantes = Object.keys(PERGUNTAS.MEIO_AMBIENTE[dificuldadeAtual]);
+                    exibirPergunta();
+                }
+            }
+        }
+
+        // Função para verificar a resposta
+        function verificarResposta(respostaUsuario, respostaCorreta) {
+            if (respostaUsuario === respostaCorreta) {
+                score += 5; // Aumenta a pontuação em 5
+            } else {
+                score = Math.max(0, score - 15); // Diminui a pontuação em 15, sem permitir que fique abaixo de 0
+            }
+            document.getElementById("score").innerText = "Score: " + score; // Atualiza a pontuação
+            exibirPergunta();
+        }
+
+        // Chama a função para exibir a pergunta ao carregar a página
+        window.onload = exibirPergunta;
+    </script>
+</body>
+</html>

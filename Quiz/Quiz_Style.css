@@ -1,0 +1,56 @@
+/* Estilo do corpo */
+body {
+    font-family: 'Arial', sans-serif; /* Muda a fonte do corpo */
+    background-color: #f0f8ff; /* Cor de fundo suave */
+    color: #333; /* Cor do texto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altura total da tela */
+    margin: 0; /* Remove margens padrão */
+}
+
+/* Estilo do container do quiz */
+.quiz-container {
+    background-color: #fff; /* Fundo branco para o container */
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px; /* Espaçamento interno */
+    width: 300px; /* Largura do container */
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Estilo do título */
+h1 {
+    font-size: 24px; /* Tamanho da fonte do título */
+    margin-bottom: 20px; /* Espaçamento abaixo do título */
+}
+
+/* Estilo das perguntas */
+#pergunta {
+    font-size: 18px; /* Tamanho da fonte da pergunta */
+    margin-bottom: 20px; /* Espaçamento abaixo da pergunta */
+}
+
+/* Estilo dos botões */
+button {
+    background-color: #4CAF50; /* Cor de fundo verde */
+    color: white; /* Cor do texto dos botões */
+    border: none; /* Remove borda padrão */
+    border-radius: 5px; /* Bordas arredondadas */
+    padding: 10px 15px; /* Espaçamento interno do botão */
+    margin: 5px; /* Espaçamento entre os botões */
+    cursor: pointer; /* Muda o cursor ao passar sobre o botão */
+    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+/* Efeito ao passar o mouse sobre os botões */
+button:hover {
+    background-color: #45a049; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo da pontuação */
+#score {
+    font-size: 16px; /* Tamanho da fonte da pontuação */
+    margin-top: 20px; /* Espaçamento acima da pontuação */
+}

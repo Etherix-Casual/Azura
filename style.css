@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('images/background.jpg'); /* Adicione uma imagem de fundo */
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header {
+    margin-top: 50px;
+}
+
+.logo {
+    width: 300px;
+}
+
+.menu {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.option {
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.option:hover {
+    background-color: #0056b3;
+}
+
+.auth-container {
+    margin-top: 50px;
+}
+
+.auth-container button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 0 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.auth-container button:hover {
+    background-color: #218838;
+}

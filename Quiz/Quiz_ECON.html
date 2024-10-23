@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Economia</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="Quiz_Style.css">
+    <style>
+        /* Estilo da barra progressiva */
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            height: 20px;
+            margin-bottom: 20px; /* Espaçamento abaixo da barra */
+        }
+
+        #progress {
+            height: 100%;
+            background-color: #4CAF50; /* Cor da barra */
+            border-radius: 5px;
+            transition: width 0.3s; /* Transição suave */
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz sobre Economia</h1>
+        <div class="progress-bar">
+            <div id="progress" style="width: 0%;"></div>
+        </div>
+        <div id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div id="score">Score: 0</div>
+    </div>
+    <script>
+        // Dicionário de perguntas
+        const PERGUNTAS = {
+            "ECONOMIA": {
+                "1": {
+                    "1": {
+                        "QUEST": "O que é PIB?",
+                        "RESPOST_LIST": ["Produto Interno Bruto", "Produto Internacional Bruto", "Produto Interno Burocrático", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Produto Interno Bruto"
+                    },
+                    "2": {
+                        "QUEST": "Qual é a função da inflação?",
+                        "RESPOST_LIST": ["Aumentar o poder de compra", "Reduzir o poder de compra", "Estabilizar a economia", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Reduzir o poder de compra"
+                    },
+                    "3": {
+                        "QUEST": "O que é uma taxa de juros?",
+                        "RESPOST_LIST": ["Custo do empréstimo", "Renda do governo", "Aumento de preços", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Custo do empréstimo"
+                    },
+                    "4": {
+                        "QUEST": "O que é a oferta e demanda?",
+                        "RESPOST_LIST": ["Conceitos de mercado", "Conceitos de produção", "Conceitos de consumo", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Conceitos de mercado"
+                    },
+                    "5": {
+                        "QUEST": "O que é um mercado monopolista?",
+                        "RESPOST_LIST": ["Um único vendedor", "Múltiplos vendedores", "Um único comprador", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Um único vendedor"
+                    }
+                },
+                "2": {
+                    "1": {
+                        "QUEST": "Qual é a função do Banco Central?",
+                        "RESPOST_LIST": ["Controlar a inflação", "Aumentar a inflação", "Reduzir a taxa de juros", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Controlar a inflação"
+                    },
+                    "2": {
+                        "QUEST": "O que é um investimento?",
+                        "RESPOST_LIST": ["Aplicação de recursos", "Gasto sem retorno", "Aumento de dívidas", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Aplicação de recursos"
+                    },
+                    "3": {
+                        "QUEST": "O que é a balança comercial?",
+                        "RESPOST_LIST": ["Diferença entre exportações e importações", "Total de vendas internas", "Total de vendas externas", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Diferença entre exportações e importações"
+                    },
+                    "4": {
+                        "QUEST": "O que é a política fiscal?",
+                        "RESPOST_LIST": ["Gestão das receitas e despesas do governo", "Controle da inflação", "Regulação do mercado", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Gestão das receitas e despesas do governo"
+                    },
+                    "5": {
+                        "QUEST": "O que é um ativo?",
+                        "RESPOST_LIST": ["Bem que gera valor", "Bem que não gera valor", "Dívida financeira", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Bem que gera valor"
+                    }
+                },
+                "3": {
+                    "1": {
+                        "QUEST": "Qual é a função do mercado de capitais?",
+                        "RESPOST_LIST": ["Financiar empresas", "Financiar governos", "Financiar particulares", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Financiar empresas"
+                    },
+                    "2": {
+                        "QUEST": "O que é um derivativo?",
+                        "RESPOST_LIST": ["Contrato financeiro", "Título de dívida", "Ação de empresa", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Contrato financeiro"
+                    },
+                    "3": {
+                        "QUEST": "O que é a globalização?",
+                        "RESPOST_LIST": ["Integração econômica global", "Desintegração econômica global", "Aumento da desigualdade", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Integração econômica global"
+                    },
+                    "4": {
+                        "QUEST": "O que é um déficit público?",
+                        "RESPOST_LIST": ["Diferença entre receitas e despesas do governo", "Diferença entre exportações e importações", "Aumento da inflação", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Diferença entre receitas e despesas do governo"
+                    },
+                    "5": {
+                        "QUEST": "O que é um fundo mútuo?",
+                        "RESPOST_LIST": ["Investimento coletivo", "Investimento individual", "Aumento de dívidas", "Nenhuma das anteriores"],
+                        "RESPOSTA": "Investimento coletivo"
+                    }
+                }
+            }
+        };
+
+        // Variáveis para controle de pontuação
+        let score = 0;
+        let dificuldadeAtual = "1"; // Dificuldade atual
+        let perguntasRestantes = Object.keys(PERGUNTAS.ECONOMIA[dificuldadeAtual]); // Perguntas restantes na dificuldade atual
+
+        // Função para exibir a pergunta e suas opções
+        function exibirPergunta() {
+            if (perguntasRestantes.length > 0) {
+                const numeroPerguntaAtual = perguntasRestantes[Math.floor(Math.random() * perguntasRestantes.length)];
+                perguntasRestantes.splice(perguntasRestantes.indexOf(numeroPerguntaAtual), 1); // Remove a pergunta respondida
+
+                const pergunta = PERGUNTAS.ECONOMIA[dificuldadeAtual][numeroPerguntaAtual];
+                
+                document.getElementById("pergunta").innerText = pergunta.QUEST;
+                const opcoesDiv = document.getElementById("opcoes");
+                opcoesDiv.innerHTML = ""; // Limpa opções anteriores
+
+                pergunta.RESPOST_LIST.forEach(resposta => {
+                    const button = document.createElement("button");
+                    button.innerText = resposta;
+                    button.onclick = () => verificarResposta(resposta, pergunta.RESPOSTA);
+                    opcoesDiv.appendChild(button);
+                });
+
+                // Atualiza a barra de progresso
+                const totalPerguntas = Object.keys(PERGUNTAS.ECONOMIA[dificuldadeAtual]).length;
+                const perguntasRespondidas = totalPerguntas - perguntasRestantes.length;
+                const progresso = (perguntasRespondidas / totalPerguntas) * 100;
+                document.getElementById("progress").style.width = progresso + "%"; // Atualiza a largura da barra
+            } else {
+                if (dificuldadeAtual === "3") {
+                    alert("Você alcançou o final do quiz! Sua pontuação é: " + score);
+                } 
+                
+                else {
+                    dificuldadeAtual = String(Number(dificuldadeAtual) + 1);
+                    perguntasRestantes = Object.keys(PERGUNTAS.ECONOMIA[dificuldadeAtual]);
+                    exibirPergunta();
+                }
+            }
+        }
+
+        // Função para verificar a resposta
+        function verificarResposta(respostaUsuario, respostaCorreta) {
+            if (respostaUsuario === respostaCorreta) {
+                score += 5; // Aumenta a pontuação em 5
+            } else {
+                score = Math.max(0, score - 15); // Diminui a pontuação em 15, sem permitir que fique abaixo de 0
+            }
+            document.getElementById("score").innerText = "Score: " + score; // Atualiza a pontuação
+            exibirPergunta();
+        }
+
+        // Chama a função para exibir a pergunta ao carregar a página
+        window.onload = exibirPergunta;
+    </script>
+</body>
+</html>
