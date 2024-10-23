@@ -1,7 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    background-image: url('images/background.jpg'); /* Adicione uma imagem de fundo */
+    background-image: url('TEXTURA/BACKGROUND.jpg'); /* Adicione uma imagem de fundo */
     background-size: cover;
+    background-color: #f4f4f4; /* Para o caso de a imagem não carregar */
     margin: 0;
     padding: 0;
     text-align: center;
