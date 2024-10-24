@@ -16,6 +16,18 @@ header {
     width: 300px;
 }
 
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+    header {
+        margin-top: 20px; /* Reduz o espaçamento superior */
+    }
+
+    .logo {
+        width: 150px; /* Diminui o tamanho da logo */
+    }
+}
+
+/* Ajuste do menu */
 .menu {
     margin-top: 100px;
     display: flex;
@@ -36,6 +48,20 @@ header {
     background-color: #0056b3;
 }
 
+/* Estilo responsivo para o menu */
+@media (max-width: 768px) {
+    .menu {
+        flex-direction: column; /* Muda para uma coluna em telas menores */
+        gap: 20px; /* Reduz o espaço entre as opções */
+        margin-top: 50px; /* Diminui a margem superior */
+    }
+
+    .option {
+        padding: 15px 20px; /* Ajusta o espaçamento interno dos botões */
+        font-size: 18px; /* Reduz o tamanho da fonte */
+    }
+}
+
 .auth-container {
     margin-top: 50px;
 }
@@ -53,4 +79,16 @@ header {
 
 .auth-container button:hover {
     background-color: #218838;
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+    .auth-container {
+        margin-top: 30px; /* Diminui a margem superior */
+    }
+
+    .auth-container button {
+        font-size: 16px; /* Reduz o tamanho da fonte dos botões */
+        padding: 8px 16px; /* Ajusta o espaçamento dos botões */
+    }
 }
